@@ -3,43 +3,9 @@
 #include<string.h>
 #include"cv.h"
 #include"highgui.h"
+#include"bmphead.h"
 
-/*Î»Í¼Í·½á¹¹*/
-#pragma pack(2) //°´Á½×Ö½Ú¶ÔÆë
-typedef struct TagBITMAPFILEHEADER
-{
-    unsigned char bfType[2];//ÎÄ¼ş¸ñÊ½
-    unsigned long bfSize;//ÎÄ¼ş´óĞ¡
-    unsigned short bfReserved1;//±£Áô
-    unsigned short bfReserved2;
-    unsigned long bfOffBits; //DIBÊı¾İÔÚÎÄ¼şÖĞµÄÆ«ÒÆÁ¿
-}fileHeader;
-
-/*Î»Í¼Êı¾İĞÅÏ¢½á¹¹*/
-typedef struct TagBITMAPINFOHEADER
-{
-    unsigned long biSize;//¸Ã½á¹¹µÄ´óĞ¡
-    long biWidth;//ÎÄ¼ş¿í¶È
-    long biHeight;//ÎÄ¼ş¸ß¶È
-    unsigned short biPlanes;//Æ½ÃæÊı
-    unsigned short biBitCount;//ÑÕÉ«Î»Êı
-    unsigned long biCompression;//Ñ¹ËõÀàĞÍ
-    unsigned long biSizeImage;//DIBÊı¾İÇø´óĞ¡
-    long biXPixPerMeter;
-    long biYPixPerMeter;
-    unsigned long biClrUsed;//¶àÉÙÑÕÉ«Ë÷Òı±í
-    unsigned long biClrImporant;//¶àÉÙÖØÒªÑÕÉ«
-}fileInfo;
-
-/*µ÷É«°å½á¹¹*/
-typedef struct TagRGBQUAD
-{
-    unsigned char rgbBlue; //À¶É«·ÖÁ¿ÁÁ¶È
-    unsigned char rgbGreen;//ÂÌÉ«·ÖÁ¿ÁÁ¶È
-    unsigned char rgbRed;//ºìÉ«·ÖÁ¿ÁÁ¶È
-    unsigned char rgbReserved;
-}rgbQuad;
-
+//  save colour three nCVhannels bitmap 
 void save_bitmap(IplImage *image)
 {
     int height=image->height;
@@ -78,7 +44,7 @@ void save_bitmap(IplImage *image)
     fInfo.biHeight=-height;
     fInfo.biWidth=width;
     fInfo.biPlanes=1;
-    fInfo.biBitCount=24;  //3Í¨µÀ  ²ÊÍ¼
+    fInfo.biBitCount=24;  //3é€šé“  å½©å›¾
     fInfo.biSizeImage=imagesize;
     fInfo.biCompression=0;
     fInfo.biXPixPerMeter=0;
@@ -92,6 +58,8 @@ void save_bitmap(IplImage *image)
     fwrite(image->imageData,(size_t) imagesize,1,fp);
     fclose(fp);
 }
+
+//  save gray onn nCVhannels bitmap
 void save_graying(IplImage *image)
 {
     fileHeader fHeader={0};
@@ -126,7 +94,7 @@ void save_graying(IplImage *image)
     fInfo.biHeight=-h;
     fInfo.biWidth=w;
     fInfo.biPlanes=1;
-    fInfo.biBitCount=8;  //1Í¨µÀ  ·Ç²ÊÍ¼
+    fInfo.biBitCount=8;  //1é€šé“  éå½©å›¾
     fInfo.biSizeImage=(((w+3)/4)*4*h);
     fInfo.biCompression=0;
     fInfo.biXPixPerMeter=0;
