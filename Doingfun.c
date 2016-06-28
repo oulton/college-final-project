@@ -107,13 +107,15 @@ IplImage* Gray_Rotate_image(IplImage* img,double a)
 	for(row=-height/2;row<height/2;row++) 
 	{ 
 		for (col=-width/2;col<width/2;col++) 
-		{ 
+		{ 	//get the rotate origin
 			x=(float)(col*cosa-row*sina);
 			y=(float)(col*sina+row*cosa);
+			//get the max int x,y
 			if(y>0) m=(int)y;
 			else m=(int)(y-1);
 			if(x>0) n=(int)x;
 			else n=(int)(x-1);
+			//get the d-value
 			p=x-n;
 			q=y-m;
 			if(q==1)
@@ -126,7 +128,7 @@ IplImage* Gray_Rotate_image(IplImage* img,double a)
 				p=0;
 				n=n+1;
 			}
-			if((m>=-height/2)&&(m<height/2)&&(n>=-width/2)&&(n<width/2))
+			if((m>=-height/2)&&(m<height/2)&&(n>=-width/2)&&(n<width/2))//take the origin as the center 
 			{
 				R=(int)((1.0-q)*((1.0-p)*img->imageData[img->widthStep*(m+height/2)+(n+width/2)]
 					+p*img->imageData[img->widthStep*(m+height/2)+(n+width/2+1)])
@@ -141,9 +143,9 @@ IplImage* Gray_Rotate_image(IplImage* img,double a)
 					+q*((1.0-p)*img->imageData[img->widthStep*(m+height/2+1)+(n+width/2)+2]
 					+p*img->imageData[img->widthStep*(m+height/2+1)+(n+width/2+1)+2]));
 			}
-			else R=G=B=0;
+			else R=G=B=0; //rotate out of the size
 			//if(R<0||G<0||B<0) R=G=B=0;
-			if(R>255||G>255||B>255) R=G=B=255;
+			if(R>255||G>255||B>255) R=G=B=255; //out of the RGB,turn white
 			img1->imageData[img1->widthStep*(row+height/2)+(col+width/2)]=R;
 			img1->imageData[img1->widthStep*(row+height/2)+(col+width/2)+1]=G;
 			img1->imageData[img1->widthStep*(row+height/2)+(col+width/2)+2]=B;
