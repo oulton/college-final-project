@@ -5,7 +5,7 @@
 #include"highgui.h"
 #include"bmphead.h"
 
-//  save colour three nCVhannels bitmap 
+//  save colour three nChannels bitmap 
 void save_bitmap(IplImage *image)
 {
     int height=image->height;
@@ -59,7 +59,7 @@ void save_bitmap(IplImage *image)
     fclose(fp);
 }
 
-//  save gray onn nCVhannels bitmap
+//  save gray onn nChannels bitmap
 void save_graying(IplImage *image)
 {
     fileHeader fHeader={0};
